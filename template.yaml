@@ -32,6 +32,10 @@ Resources:
                 - aws.s3
               detail-type:
                 - Object Created
+              detail:
+                bucket:
+                  name:
+                    - keshavkb2-singapore
 
 Outputs:
   HelloWorldFunction:

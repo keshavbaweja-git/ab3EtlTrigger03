@@ -20,7 +20,6 @@ public class App implements RequestStreamHandler {
             return inputEvent;
         }
 
-        log("handleEvent()");
         ObjectCreated objectCreated = inputEvent.getDetail();
 
         if(objectCreated.getBucket() == null) {
@@ -52,7 +51,6 @@ public class App implements RequestStreamHandler {
      * @throws IOException
      */
     public void handleRequest(InputStream input, OutputStream output, Context context) throws IOException {
-        log("Event triggered!!!");
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         input.transferTo(baos);
         log(String.format("input: %s", baos.toString(UTF_8)));
