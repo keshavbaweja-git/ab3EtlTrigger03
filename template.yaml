@@ -21,7 +21,7 @@ Resources:
         - x86_64
       Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
         Variables:
-          PARAM1: VALUE
+          AB03_GLUE_TRANSFORMATION_JOB: job1
       Events:
         HelloWorld:
           Type: CloudWatchEvent # More info about CloudWatchEvent Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#cloudwatchevent

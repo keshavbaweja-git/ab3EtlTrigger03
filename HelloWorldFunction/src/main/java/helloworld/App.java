@@ -39,6 +39,8 @@ public class App implements RequestStreamHandler {
                           objectCreated.getObject()
                                        .getKey()));
 
+        log(String.format("AB03_GLUE_TRANSFORMATION_JOB:%s", System.getenv("AB03_GLUE_TRANSFORMATION_JOB")));
+
         return inputEvent;
     }
 
