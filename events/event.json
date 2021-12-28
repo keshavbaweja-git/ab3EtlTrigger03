@@ -1,0 +1,29 @@
+{
+  "version": "0",
+  "id": "0370be29-dce0-6ff5-16c7-cc11bd96f53e",
+  "detail-type": "Object Created",
+  "source": "aws.s3",
+  "account": "563361968771",
+  "time": "2021-12-28T06:04:21Z",
+  "region": "ap-southeast-1",
+  "resources": [
+    "arn:aws:s3:::keshavkb2-singapore"
+  ],
+  "detail": {
+    "version": "0",
+    "bucket": {
+      "name": "keshavkb2-singapore"
+    },
+    "object": {
+      "key": "test15/instructions.md",
+      "size": 2432,
+      "etag": "05158c61c80fe62523231d5219e05c30",
+      "version-id": "dwQk9rIUxC0ee3MNvYIagm7MZZEyoUhO",
+      "sequencer": "0061CAA8E56217771C"
+    },
+    "request-id": "CH071DN3NM66P7A8",
+    "requester": "563361968771",
+    "source-ip-address": "54.240.199.108",
+    "reason": "PutObject"
+  }
+}
