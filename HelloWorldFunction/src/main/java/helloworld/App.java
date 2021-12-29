@@ -5,10 +5,11 @@ import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
 import schema.aws.s3.objectcreated.AWSEvent;
 import schema.aws.s3.objectcreated.ObjectCreated;
 import schema.aws.s3.objectcreated.marshaller.Marshaller;
-import software.amazon.awssdk.http.async.SdkAsyncHttpClient;
-import software.amazon.awssdk.http.crt.AwsCrtAsyncHttpClient;
-import software.amazon.awssdk.services.glue.GlueAsyncClient;
+import software.amazon.awssdk.http.apache.ApacheHttpClient;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.glue.GlueClient;
 import software.amazon.awssdk.services.glue.model.StartJobRunRequest;
+import software.amazon.awssdk.services.glue.model.StartJobRunResponse;
 
 import java.io.*;
 
@@ -19,13 +20,14 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  */
 public class App implements RequestStreamHandler {
 
-    private static final SdkAsyncHttpClient sdkAsyncHttpClient = AwsCrtAsyncHttpClient.create();
-
-    private static final GlueAsyncClient glueClient = GlueAsyncClient.builder()
-                                                           .httpClient(sdkAsyncHttpClient)
+    private static final GlueClient glueClient = GlueClient.builder()
+                                                           .region(Region.of(System.getenv("AWS_REGION")))
+                                                           .httpClient(ApacheHttpClient.create())
                                                            .build();
 
     private Object handleEvent(final AWSEvent<ObjectCreated> inputEvent, final Context context) {
+        log(String.format("Region:%s",
+                          System.getenv("AWS_REGION")));
         if (inputEvent == null) {
             return inputEvent;
         }
@@ -54,12 +56,13 @@ public class App implements RequestStreamHandler {
         log(String.format("AB03_GLUE_TRANSFORMATION_JOB:%s",
                           ab03GlueTransformationJobName));
 
-        glueClient.startJobRun(StartJobRunRequest.builder()
-                                                 .jobName(ab03GlueTransformationJobName)
-                                                 .build());
+        StartJobRunResponse startJobRunResponse = glueClient.startJobRun(StartJobRunRequest.builder()
+                                                                                           .jobName(ab03GlueTransformationJobName)
+                                                                                           .build());
 
-        log(String.format("Started glue job:%s",
-                          ab03GlueTransformationJobName));
+        log(String.format("Started glue job:%s with jobId:%s",
+                          ab03GlueTransformationJobName,
+                          startJobRunResponse.jobRunId()));
 
         return inputEvent;
     }
