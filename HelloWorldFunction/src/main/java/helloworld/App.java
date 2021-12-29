@@ -28,6 +28,7 @@ public class App implements RequestStreamHandler {
     private Object handleEvent(final AWSEvent<ObjectCreated> inputEvent, final Context context) {
         log(String.format("Region:%s",
                           System.getenv("AWS_REGION")));
+
         if (inputEvent == null) {
             return inputEvent;
         }
