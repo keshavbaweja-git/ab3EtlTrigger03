@@ -21,7 +21,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class App implements RequestStreamHandler {
 
     private static final GlueClient glueClient = GlueClient.builder()
-                                                           .region(Region.of(System.getenv("AWS_REGION")))
                                                            .httpClient(ApacheHttpClient.create())
                                                            .build();
 
