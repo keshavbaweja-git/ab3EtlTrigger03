@@ -25,7 +25,7 @@ Resources:
         - x86_64
       Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
         Variables:
-          AB03_GLUE_TRANSFORMATION_JOB: ab302-flights
+          AB03_GLUE_WORKFLOW_NAME: workflow-test01
       Events:
         HelloWorld:
           Type: CloudWatchEvent # More info about CloudWatchEvent Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#cloudwatchevent

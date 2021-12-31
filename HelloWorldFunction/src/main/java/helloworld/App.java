@@ -6,10 +6,9 @@ import schema.aws.s3.objectcreated.AWSEvent;
 import schema.aws.s3.objectcreated.ObjectCreated;
 import schema.aws.s3.objectcreated.marshaller.Marshaller;
 import software.amazon.awssdk.http.apache.ApacheHttpClient;
-import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.glue.GlueClient;
-import software.amazon.awssdk.services.glue.model.StartJobRunRequest;
-import software.amazon.awssdk.services.glue.model.StartJobRunResponse;
+import software.amazon.awssdk.services.glue.model.StartWorkflowRunRequest;
+import software.amazon.awssdk.services.glue.model.StartWorkflowRunResponse;
 
 import java.io.*;
 
@@ -51,18 +50,15 @@ public class App implements RequestStreamHandler {
                           objectCreated.getObject()
                                        .getKey()));
 
-
-        final String ab03GlueTransformationJobName = System.getenv("AB03_GLUE_TRANSFORMATION_JOB");
-        log(String.format("AB03_GLUE_TRANSFORMATION_JOB:%s",
-                          ab03GlueTransformationJobName));
-
-        StartJobRunResponse startJobRunResponse = glueClient.startJobRun(StartJobRunRequest.builder()
-                                                                                           .jobName(ab03GlueTransformationJobName)
-                                                                                           .build());
-
-        log(String.format("Started glue job:%s with jobId:%s",
-                          ab03GlueTransformationJobName,
-                          startJobRunResponse.jobRunId()));
+        final String workflowName = System.getenv("AB03_GLUE_WORKFLOW_NAME");
+        log(String.format("AB03_GLUE_WORKFLOW_NAME:%s",
+                          workflowName));
+        final StartWorkflowRunResponse startWorkflowRunResponse = glueClient.startWorkflowRun(StartWorkflowRunRequest.builder()
+                                                                                                               .name(workflowName)
+                                                                                                               .build());
+        log(String.format("Started glue workflow:%s with jobId:%s",
+                          workflowName,
+                          startWorkflowRunResponse.runId()));
 
         return inputEvent;
     }
