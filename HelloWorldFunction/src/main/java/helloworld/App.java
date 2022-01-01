@@ -7,6 +7,7 @@ import schema.aws.s3.objectcreated.ObjectCreated;
 import schema.aws.s3.objectcreated.marshaller.Marshaller;
 import software.amazon.awssdk.http.apache.ApacheHttpClient;
 import software.amazon.awssdk.services.glue.GlueClient;
+import software.amazon.awssdk.services.glue.model.ConcurrentRunsExceededException;
 import software.amazon.awssdk.services.glue.model.StartWorkflowRunRequest;
 import software.amazon.awssdk.services.glue.model.StartWorkflowRunResponse;
 
@@ -53,12 +54,17 @@ public class App implements RequestStreamHandler {
         final String workflowName = System.getenv("AB03_GLUE_WORKFLOW_NAME");
         log(String.format("AB03_GLUE_WORKFLOW_NAME:%s",
                           workflowName));
-        final StartWorkflowRunResponse startWorkflowRunResponse = glueClient.startWorkflowRun(StartWorkflowRunRequest.builder()
-                                                                                                               .name(workflowName)
-                                                                                                               .build());
-        log(String.format("Started glue workflow:%s with jobId:%s",
-                          workflowName,
-                          startWorkflowRunResponse.runId()));
+
+        try {
+            final StartWorkflowRunResponse startWorkflowRunResponse = glueClient.startWorkflowRun(StartWorkflowRunRequest.builder()
+                                                                                                                         .name(workflowName)
+                                                                                                                         .build());
+            log(String.format("Started glue workflow:%s with jobId:%s",
+                              workflowName,
+                              startWorkflowRunResponse.runId()));
+        } catch (ConcurrentRunsExceededException e) {
+            log("Concurrent runs exceeded");
+        }
 
         return inputEvent;
     }
