@@ -39,7 +39,10 @@ Resources:
               detail:
                 bucket:
                   name:
-                    - keshavkb2-singapore
+                    - keshavkb2-raw-test01
+                object:
+                  key:
+                    - { "prefix" : "seats" }
 
 Outputs:
   HelloWorldFunction:
